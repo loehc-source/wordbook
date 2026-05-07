@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -13,634 +12,310 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0f14;
-    --surface: #1a1a24;
-    --surface2: #22222f;
-    --border: #2e2e3e;
-    --accent: #7c6fff;
-    --accent2: #ff6f91;
-    --text: #f0eeff;
-    --muted: #7070a0;
-    --success: #4fffb0;
-    --danger: #ff5f7e;
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --bg:#0f0f14; --surface:#1a1a24; --surface2:#22222f; --border:#2e2e3e;
+    --accent:#7c6fff; --accent2:#ff6f91; --text:#f0eeff; --muted:#7070a0;
+    --success:#4fffb0; --danger:#ff5f7e;
+    --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
   }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;}
 
-- { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  .screen{display:none;flex-direction:column;height:100dvh;padding-top:var(--safe-top);padding-bottom:var(--safe-bottom);overflow:hidden;}
+  .screen.active{display:flex;}
 
-body {
-font-family: ‘Noto Sans KR’, sans-serif;
-background: var(–bg);
-color: var(–text);
-min-height: 100dvh;
-overflow: hidden;
-display: flex;
-flex-direction: column;
-}
+  .header{padding:18px 20px 14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);flex-shrink:0;}
+  .header-back{width:36px;height:36px;background:var(--surface2);border:none;border-radius:10px;color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+  .header-back:active{background:var(--border);}
+  .header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;flex:1;}
+  .header-badge{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:13px;color:var(--muted);font-weight:500;}
 
-/* ── SCREENS ── */
-.screen {
-display: none;
-flex-direction: column;
-height: 100dvh;
-padding-top: var(–safe-top);
-padding-bottom: var(–safe-bottom);
-overflow: hidden;
-}
-.screen.active { display: flex; }
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#9b6fff);border:none;border-radius:16px;padding:18px;color:#fff;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s;letter-spacing:.3px;width:100%;}
+  .btn-primary:active{opacity:.85;transform:scale(.98);}
+  .btn-secondary{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;color:var(--text);font-family:'Syne',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s;letter-spacing:.3px;width:100%;}
+  .btn-secondary:active{background:var(--surface2);transform:scale(.98);}
 
-/* ── HEADER ── */
-.header {
-padding: 18px 20px 14px;
-display: flex;
-align-items: center;
-gap: 12px;
-border-bottom: 1px solid var(–border);
-flex-shrink: 0;
-}
-.header-back {
-width: 36px; height: 36px;
-background: var(–surface2);
-border: none;
-border-radius: 10px;
-color: var(–text);
-font-size: 18px;
-cursor: pointer;
-display: flex; align-items: center; justify-content: center;
-transition: background .15s;
-}
-.header-back:active { background: var(–border); }
-.header-title {
-font-family: ‘Syne’, sans-serif;
-font-weight: 700;
-font-size: 18px;
-flex: 1;
-}
-.header-badge {
-background: var(–surface2);
-border: 1px solid var(–border);
-border-radius: 20px;
-padding: 4px 12px;
-font-size: 13px;
-color: var(–muted);
-font-weight: 500;
-}
+  /* HOME */
+  #home .hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px;gap:8px;}
+  .logo-mark{width:72px;height:72px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:12px;box-shadow:0 0 40px rgba(124,111,255,.3);}
+  .app-name{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .app-sub{font-size:14px;color:var(--muted);margin-bottom:12px;}
+  .stats-row{display:flex;gap:10px;margin-bottom:4px;}
+  .stat-pill{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;text-align:center;flex:1;}
+  .stat-pill .sn{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;}
+  .stat-pill .sl{font-size:11px;color:var(--muted);margin-top:2px;}
+  .stat-pill.c-new .sn{color:var(--text);}
+  .stat-pill.c-know .sn{color:var(--success);}
+  .stat-pill.c-unk .sn{color:var(--danger);}
+  .home-actions{padding:0 20px 20px;display:flex;flex-direction:column;gap:10px;}
 
-/* ── HOME ── */
-#home .hero {
-flex: 1;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 40px 30px;
-gap: 8px;
-}
-.logo-mark {
-width: 72px; height: 72px;
-background: linear-gradient(135deg, var(–accent), var(–accent2));
-border-radius: 20px;
-display: flex; align-items: center; justify-content: center;
-font-size: 36px;
-margin-bottom: 12px;
-box-shadow: 0 0 40px rgba(124,111,255,0.3);
-}
-.app-name {
-font-family: ‘Syne’, sans-serif;
-font-weight: 800;
-font-size: 32px;
-background: linear-gradient(135deg, var(–accent), var(–accent2));
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-}
-.app-sub {
-font-size: 14px;
-color: var(–muted);
-margin-bottom: 16px;
-}
-.word-count-pill {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: 20px;
-padding: 6px 18px;
-font-size: 14px;
-color: var(–muted);
-}
-.word-count-pill span { color: var(–accent); font-weight: 700; }
+  /* WORD LIST */
+  .tab-bar{display:flex;gap:6px;padding:12px 16px 0;flex-shrink:0;}
+  .tab{flex:1;padding:9px 4px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--muted);font-size:11px;font-weight:600;font-family:'Syne',sans-serif;cursor:pointer;text-align:center;transition:all .15s;}
+  .tab.active{border-color:var(--accent);color:var(--accent);background:rgba(124,111,255,.1);}
+  .tab:active{transform:scale(.96);}
+  #wordlist .list-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 16px;}
+  .word-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
+  .word-card:active{background:var(--surface2);}
+  .word-num{font-family:'Syne',sans-serif;font-size:11px;color:var(--muted);min-width:20px;text-align:center;}
+  .wdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .wdot-new{background:var(--muted);}
+  .wdot-know{background:var(--success);}
+  .wdot-unknown{background:var(--danger);}
+  .word-info{flex:1;min-width:0;}
+  .word-en{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .word-ko{font-size:13px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .word-del{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:6px;line-height:1;transition:color .15s;}
+  .word-del:active{color:var(--danger);}
+  .empty-state{text-align:center;padding:60px 30px;color:var(--muted);}
+  .empty-state .big{font-size:48px;margin-bottom:16px;}
+  .empty-state p{font-size:15px;line-height:1.6;}
+  .add-bar{padding:14px 16px;border-top:1px solid var(--border);background:var(--bg);flex-shrink:0;}
+  .add-form{display:flex;gap:8px;align-items:flex-end;}
+  .add-inputs{flex:1;display:flex;flex-direction:column;gap:6px;}
+  .input-field{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;width:100%;}
+  .input-field::placeholder{color:var(--muted);}
+  .input-field:focus{border-color:var(--accent);}
+  .input-field.en{font-family:'Syne',sans-serif;font-weight:600;}
+  .btn-add{background:linear-gradient(135deg,var(--accent),#9b6fff);border:none;border-radius:12px;width:50px;height:50px;color:#fff;font-size:24px;cursor:pointer;flex-shrink:0;align-self:flex-end;transition:opacity .15s,transform .1s;}
+  .btn-add:active{opacity:.8;transform:scale(.92);}
 
-.home-actions {
-padding: 0 20px 20px;
-display: flex;
-flex-direction: column;
-gap: 12px;
-}
-.btn-primary {
-background: linear-gradient(135deg, var(–accent), #9b6fff);
-border: none;
-border-radius: 16px;
-padding: 18px;
-color: #fff;
-font-family: ‘Syne’, sans-serif;
-font-size: 16px;
-font-weight: 700;
-cursor: pointer;
-transition: opacity .15s, transform .1s;
-letter-spacing: .3px;
-}
-.btn-primary:active { opacity: .85; transform: scale(.98); }
-.btn-secondary {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: 16px;
-padding: 18px;
-color: var(–text);
-font-family: ‘Syne’, sans-serif;
-font-size: 16px;
-font-weight: 600;
-cursor: pointer;
-transition: background .15s, transform .1s;
-letter-spacing: .3px;
-}
-.btn-secondary:active { background: var(–surface2); transform: scale(.98); }
+  /* STUDY SETUP */
+  #studysetup .setup-body{flex:1;overflow-y:auto;padding:20px;}
+  .section-label{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;}
+  .pool-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;margin-bottom:8px;}
+  .pool-btn.active{border-color:var(--accent);background:rgba(124,111,255,.1);}
+  .pool-btn:active{transform:scale(.98);}
+  .pool-icon{font-size:22px;}
+  .pool-info{flex:1;}
+  .pool-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;}
+  .pool-desc{font-size:12px;color:var(--muted);margin-top:2px;}
+  .pool-count{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--accent);}
+  .info-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;}
+  .info-box-icon{font-size:22px;flex-shrink:0;}
+  .info-box-text{font-size:14px;color:var(--muted);line-height:1.6;}
+  .info-box-text strong{color:var(--text);}
+  .setup-footer{padding:16px 20px;border-top:1px solid var(--border);background:var(--bg);flex-shrink:0;}
 
-/* ── WORD LIST ── */
-#wordlist .list-scroll {
-flex: 1;
-overflow-y: auto;
--webkit-overflow-scrolling: touch;
-padding: 12px 16px;
-}
+  /* STUDY CARD */
+  #study .study-body{flex:1;display:flex;flex-direction:column;padding:20px;gap:14px;overflow:hidden;}
+  .study-prog-wrap{background:var(--surface);border-radius:4px;height:4px;flex-shrink:0;}
+  .study-prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s ease;}
+  .study-counter{text-align:center;font-size:13px;color:var(--muted);font-weight:500;}
+  .flip-card-wrap{flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .flip-card{width:100%;}
+  .flip-inner{position:relative;width:100%;transition:transform .45s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;}
+  .flip-inner.flipped{transform:rotateY(180deg);}
+  .flip-front,.flip-back{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:44px 28px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:220px;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+  .flip-back{position:absolute;top:0;left:0;width:100%;transform:rotateY(180deg);border-color:var(--accent);}
+  .card-hint{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+  .card-word{font-family:'Syne',sans-serif;font-weight:800;font-size:34px;line-height:1.2;}
+  .card-meaning{font-size:22px;font-weight:700;color:var(--text);}
+  .card-tap-hint{font-size:13px;color:var(--muted);margin-top:4px;}
+  .study-actions{display:flex;gap:10px;flex-shrink:0;}
+  .btn-pass{flex:1;background:var(--surface);border:1.5px solid var(--danger);border-radius:16px;padding:18px;color:var(--danger);font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;}
+  .btn-pass:active{background:rgba(255,95,126,.1);transform:scale(.97);}
+  .btn-know{flex:1;background:var(--surface);border:1.5px solid var(--success);border-radius:16px;padding:18px;color:var(--success);font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;}
+  .btn-know:active{background:rgba(79,255,176,.1);transform:scale(.97);}
 
-.word-card {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: 14px;
-padding: 16px;
-margin-bottom: 10px;
-display: flex;
-align-items: center;
-gap: 14px;
-position: relative;
-transition: background .15s;
-}
-.word-card:active { background: var(–surface2); }
-.word-num {
-font-family: ‘Syne’, sans-serif;
-font-size: 11px;
-color: var(–muted);
-min-width: 22px;
-text-align: center;
-}
-.word-info { flex: 1; min-width: 0; }
-.word-en {
-font-family: ‘Syne’, sans-serif;
-font-weight: 700;
-font-size: 17px;
-color: var(–text);
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-}
-.word-ko {
-font-size: 13px;
-color: var(–muted);
-margin-top: 3px;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-}
-.word-del {
-background: none;
-border: none;
-color: var(–muted);
-font-size: 20px;
-cursor: pointer;
-padding: 6px;
-line-height: 1;
-transition: color .15s;
-}
-.word-del:active { color: var(–danger); }
+  /* STUDY RESULT */
+  #studyresult .sr-body{flex:1;overflow-y:auto;padding:20px;}
+  .sr-summary{display:flex;gap:10px;margin-bottom:24px;}
+  .sr-box{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 10px;text-align:center;}
+  .sr-box .sn{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;}
+  .sr-box .sl{font-size:12px;color:var(--muted);margin-top:4px;}
+  .sr-box.know .sn{color:var(--success);}
+  .sr-box.unk .sn{color:var(--danger);}
+  .sr-section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;margin-top:4px;}
+  .sr-word-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;}
+  .sr-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
+  .sr-dot.ok{background:var(--success);}
+  .sr-dot.fail{background:var(--danger);}
+  .sr-en{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;}
+  .sr-ko{font-size:13px;color:var(--muted);margin-top:2px;}
+  .sr-footer{padding:16px 20px;border-top:1px solid var(--border);background:var(--bg);display:flex;gap:10px;flex-shrink:0;}
+  .sr-footer button{flex:1;padding:15px;font-size:14px;}
 
-.empty-state {
-text-align: center;
-padding: 60px 30px;
-color: var(–muted);
-}
-.empty-state .big { font-size: 48px; margin-bottom: 16px; }
-.empty-state p { font-size: 15px; line-height: 1.6; }
+  /* QUIZ SETUP */
+  #quizsetup .setup-body{flex:1;overflow-y:auto;padding:20px 20px 0;}
+  .count-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+  .chip{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:10px 18px;font-family:'Syne',sans-serif;font-weight:600;font-size:15px;color:var(--muted);cursor:pointer;transition:all .15s;}
+  .chip.active{background:rgba(124,111,255,.15);border-color:var(--accent);color:var(--accent);}
+  .chip:active{transform:scale(.95);}
+  .direction-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+  .dir-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;text-align:center;transition:all .15s;line-height:1.4;}
+  .dir-btn .dir-icon{font-size:20px;display:block;margin-bottom:4px;}
+  .dir-btn.active{background:rgba(124,111,255,.15);border-color:var(--accent);color:var(--text);}
+  .dir-btn:active{transform:scale(.97);}
 
-/* ── ADD WORD (FAB area) ── */
-.add-bar {
-padding: 14px 16px;
-border-top: 1px solid var(–border);
-background: var(–bg);
-flex-shrink: 0;
-}
-.add-form {
-display: flex;
-gap: 8px;
-align-items: flex-end;
-}
-.add-inputs {
-flex: 1;
-display: flex;
-flex-direction: column;
-gap: 6px;
-}
-.input-field {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: 10px;
-padding: 11px 14px;
-color: var(–text);
-font-size: 15px;
-font-family: ‘Noto Sans KR’, sans-serif;
-outline: none;
-transition: border-color .2s;
-width: 100%;
-}
-.input-field::placeholder { color: var(–muted); }
-.input-field:focus { border-color: var(–accent); }
-.input-field.en { font-family: ‘Syne’, sans-serif; font-weight: 600; }
+  /* QUIZ */
+  #quiz .quiz-body{flex:1;overflow-y:auto;padding:20px 20px 0;display:flex;flex-direction:column;}
+  .progress-bar-wrap{background:var(--surface);border-radius:4px;height:4px;margin-bottom:24px;flex-shrink:0;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s ease;}
+  .question-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:30px 24px;margin-bottom:16px;text-align:center;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+  .q-label{font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;font-weight:500;}
+  .q-word{font-family:'Syne',sans-serif;font-weight:800;font-size:30px;line-height:1.2;}
+  .q-word.ko{font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:22px;}
+  .options-grid{display:flex;flex-direction:column;gap:10px;flex:1;}
+  .option-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;color:var(--text);font-size:15px;font-family:'Noto Sans KR',sans-serif;font-weight:500;cursor:pointer;text-align:left;display:flex;align-items:center;gap:14px;transition:background .15s,border-color .15s,transform .1s;}
+  .option-btn:not(.revealed):active{transform:scale(.98);background:var(--surface2);}
+  .option-label{width:28px;height:28px;background:var(--surface2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--muted);flex-shrink:0;transition:background .15s,color .15s;}
+  .option-text{flex:1;line-height:1.35;}
+  .option-btn.correct{border-color:var(--success);background:rgba(79,255,176,.08);}
+  .option-btn.correct .option-label{background:var(--success);color:#0f1a14;}
+  .option-btn.wrong{border-color:var(--danger);background:rgba(255,95,126,.08);}
+  .option-btn.wrong .option-label{background:var(--danger);color:#fff;}
+  .option-btn.revealed{cursor:default;}
+  .quiz-footer{padding:16px 20px;border-top:1px solid var(--border);background:var(--bg);flex-shrink:0;}
+  .quiz-counter{text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:500;}
 
-.btn-add {
-background: linear-gradient(135deg, var(–accent), #9b6fff);
-border: none;
-border-radius: 12px;
-width: 50px; height: 50px;
-color: #fff;
-font-size: 24px;
-cursor: pointer;
-flex-shrink: 0;
-align-self: flex-end;
-transition: opacity .15s, transform .1s;
-}
-.btn-add:active { opacity: .8; transform: scale(.92); }
+  /* RESULT */
+  #result .result-body{flex:1;overflow-y:auto;padding:20px;}
+  .result-score-ring{display:flex;flex-direction:column;align-items:center;padding:24px 0 20px;}
+  .score-circle{width:130px;height:130px;border-radius:50%;background:conic-gradient(var(--accent) 0%,var(--accent2) var(--pct),var(--surface) var(--pct));display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+  .score-inner{width:100px;height:100px;background:var(--bg);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-num{font-family:'Syne',sans-serif;font-weight:800;font-size:30px;line-height:1;}
+  .score-denom{font-size:13px;color:var(--muted);}
+  .score-msg{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;}
+  .result-section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;margin-top:4px;}
+  .result-word-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;}
+  .result-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
+  .result-dot.ok{background:var(--success);}
+  .result-dot.fail{background:var(--danger);}
+  .rw-en{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;}
+  .rw-ko{font-size:13px;color:var(--muted);margin-top:2px;}
+  .rw-ans{font-size:12px;color:var(--danger);margin-top:4px;}
+  .result-footer{padding:16px 20px;border-top:1px solid var(--border);background:var(--bg);display:flex;gap:10px;flex-shrink:0;}
+  .result-footer button{flex:1;padding:15px;font-size:14px;}
 
-/* ── QUIZ SETUP ── */
-#quizsetup .setup-body {
-flex: 1;
-overflow-y: auto;
-padding: 20px 20px 0;
-}
-.section-label {
-font-family: ‘Syne’, sans-serif;
-font-weight: 700;
-font-size: 13px;
-color: var(–muted);
-letter-spacing: 1.2px;
-text-transform: uppercase;
-margin-bottom: 12px;
-}
-.count-chips {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
-margin-bottom: 28px;
-}
-.chip {
-background: var(–surface);
-border: 1.5px solid var(–border);
-border-radius: 10px;
-padding: 10px 18px;
-font-family: ‘Syne’, sans-serif;
-font-weight: 600;
-font-size: 15px;
-color: var(–muted);
-cursor: pointer;
-transition: all .15s;
-}
-.chip.active {
-background: rgba(124,111,255,.15);
-border-color: var(–accent);
-color: var(–accent);
-}
-.chip:active { transform: scale(.95); }
-
-.direction-toggle {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 8px;
-margin-bottom: 28px;
-}
-.dir-btn {
-background: var(–surface);
-border: 1.5px solid var(–border);
-border-radius: 12px;
-padding: 14px 10px;
-color: var(–muted);
-font-size: 13px;
-font-weight: 500;
-cursor: pointer;
-text-align: center;
-transition: all .15s;
-line-height: 1.4;
-}
-.dir-btn .dir-icon { font-size: 20px; display: block; margin-bottom: 4px; }
-.dir-btn.active {
-background: rgba(124,111,255,.15);
-border-color: var(–accent);
-color: var(–text);
-}
-.dir-btn:active { transform: scale(.97); }
-
-.quiz-info-box {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: 14px;
-padding: 16px;
-margin-bottom: 24px;
-display: flex;
-align-items: center;
-gap: 12px;
-}
-.quiz-info-icon { font-size: 24px; }
-.quiz-info-text { font-size: 14px; color: var(–muted); line-height: 1.5; }
-.quiz-info-text strong { color: var(–text); }
-
-.setup-footer {
-padding: 16px 20px;
-border-top: 1px solid var(–border);
-background: var(–bg);
-flex-shrink: 0;
-}
-
-/* ── QUIZ ── */
-#quiz .quiz-body {
-flex: 1;
-overflow-y: auto;
-padding: 20px 20px 0;
-display: flex;
-flex-direction: column;
-}
-
-.progress-bar-wrap {
-background: var(–surface);
-border-radius: 4px;
-height: 4px;
-margin-bottom: 24px;
-flex-shrink: 0;
-}
-.progress-bar-fill {
-height: 100%;
-background: linear-gradient(90deg, var(–accent), var(–accent2));
-border-radius: 4px;
-transition: width .4s ease;
-}
-
-.question-box {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: 20px;
-padding: 30px 24px;
-margin-bottom: 20px;
-text-align: center;
-min-height: 130px;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-flex-shrink: 0;
-}
-.q-label {
-font-size: 11px;
-color: var(–muted);
-letter-spacing: 1.5px;
-text-transform: uppercase;
-margin-bottom: 10px;
-font-weight: 500;
-}
-.q-word {
-font-family: ‘Syne’, sans-serif;
-font-weight: 800;
-font-size: 30px;
-line-height: 1.2;
-color: var(–text);
-}
-.q-word.ko { font-family: ‘Noto Sans KR’, sans-serif; font-weight: 700; font-size: 22px; }
-
-.options-grid {
-display: flex;
-flex-direction: column;
-gap: 10px;
-flex: 1;
-}
-.option-btn {
-background: var(–surface);
-border: 1.5px solid var(–border);
-border-radius: 14px;
-padding: 16px 18px;
-color: var(–text);
-font-size: 15px;
-font-family: ‘Noto Sans KR’, sans-serif;
-font-weight: 500;
-cursor: pointer;
-text-align: left;
-display: flex;
-align-items: center;
-gap: 14px;
-transition: background .15s, border-color .15s, transform .1s;
-}
-.option-btn:not(.revealed):active { transform: scale(.98); background: var(–surface2); }
-.option-label {
-width: 28px; height: 28px;
-background: var(–surface2);
-border-radius: 8px;
-display: flex; align-items: center; justify-content: center;
-font-family: ‘Syne’, sans-serif;
-font-weight: 700;
-font-size: 13px;
-color: var(–muted);
-flex-shrink: 0;
-transition: background .15s, color .15s;
-}
-.option-text { flex: 1; line-height: 1.35; }
-
-.option-btn.correct {
-border-color: var(–success);
-background: rgba(79,255,176,.08);
-}
-.option-btn.correct .option-label {
-background: var(–success);
-color: #0f1a14;
-}
-.option-btn.wrong {
-border-color: var(–danger);
-background: rgba(255,95,126,.08);
-}
-.option-btn.wrong .option-label {
-background: var(–danger);
-color: #fff;
-}
-.option-btn.revealed { cursor: default; }
-
-.quiz-footer {
-padding: 16px 20px;
-border-top: 1px solid var(–border);
-background: var(–bg);
-flex-shrink: 0;
-}
-.quiz-counter {
-text-align: center;
-font-size: 13px;
-color: var(–muted);
-margin-bottom: 12px;
-font-weight: 500;
-}
-
-/* ── RESULT ── */
-#result .result-body {
-flex: 1;
-overflow-y: auto;
-padding: 20px;
-}
-.result-score-ring {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-padding: 32px 0 24px;
-}
-.score-circle {
-width: 130px; height: 130px;
-border-radius: 50%;
-background: conic-gradient(var(–accent) 0%, var(–accent2) var(–pct), var(–surface) var(–pct));
-display: flex; align-items: center; justify-content: center;
-position: relative;
-margin-bottom: 16px;
-}
-.score-inner {
-width: 100px; height: 100px;
-background: var(–bg);
-border-radius: 50%;
-display: flex; flex-direction: column; align-items: center; justify-content: center;
-}
-.score-num {
-font-family: ‘Syne’, sans-serif;
-font-weight: 800;
-font-size: 30px;
-color: var(–text);
-line-height: 1;
-}
-.score-denom {
-font-size: 13px;
-color: var(–muted);
-}
-.score-msg {
-font-family: ‘Syne’, sans-serif;
-font-weight: 700;
-font-size: 20px;
-text-align: center;
-}
-
-.result-section-title {
-font-family: ‘Syne’, sans-serif;
-font-weight: 700;
-font-size: 13px;
-color: var(–muted);
-letter-spacing: 1px;
-text-transform: uppercase;
-margin-bottom: 10px;
-margin-top: 4px;
-}
-.result-word-item {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: 12px;
-padding: 13px 16px;
-margin-bottom: 8px;
-display: flex;
-gap: 10px;
-align-items: flex-start;
-}
-.result-dot {
-width: 8px; height: 8px;
-border-radius: 50%;
-margin-top: 5px;
-flex-shrink: 0;
-}
-.result-dot.ok { background: var(–success); }
-.result-dot.fail { background: var(–danger); }
-.rw-en { font-family: ‘Syne’, sans-serif; font-weight: 700; font-size: 15px; }
-.rw-ko { font-size: 13px; color: var(–muted); margin-top: 2px; }
-.rw-ans { font-size: 12px; color: var(–danger); margin-top: 4px; }
-
-.result-footer {
-padding: 16px 20px;
-border-top: 1px solid var(–border);
-background: var(–bg);
-display: flex;
-gap: 10px;
-flex-shrink: 0;
-}
-.result-footer .btn-secondary { flex: 1; padding: 15px; font-size: 14px; }
-.result-footer .btn-primary { flex: 1; padding: 15px; font-size: 14px; }
-
-/* ── TOAST ── */
-.toast {
-position: fixed;
-bottom: calc(var(–safe-bottom) + 100px);
-left: 50%; transform: translateX(-50%);
-background: var(–surface2);
-border: 1px solid var(–border);
-border-radius: 30px;
-padding: 10px 20px;
-font-size: 14px;
-color: var(–text);
-pointer-events: none;
-opacity: 0;
-transition: opacity .2s;
-white-space: nowrap;
-z-index: 999;
-}
-.toast.show { opacity: 1; }
-
-/* scrollbar */
-::-webkit-scrollbar { width: 0; }
+  .toast{position:fixed;bottom:calc(var(--safe-bottom) + 90px);left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border);border-radius:30px;padding:10px 20px;font-size:14px;color:var(--text);pointer-events:none;opacity:0;transition:opacity .2s;white-space:nowrap;z-index:999;}
+  .toast.show{opacity:1;}
+  ::-webkit-scrollbar{width:0;}
 </style>
-
 </head>
 <body>
 
-<!-- ── HOME ── -->
-
+<!-- HOME -->
 <div id="home" class="screen active">
   <div class="hero">
     <div class="logo-mark">📖</div>
     <div class="app-name">WordBook</div>
     <div class="app-sub">나만의 영어 단어장</div>
-    <div class="word-count-pill">저장된 단어 <span id="home-count">0</span>개</div>
+    <div class="stats-row">
+      <div class="stat-pill c-new"><div class="sn" id="h-new">0</div><div class="sl">단어장</div></div>
+      <div class="stat-pill c-know"><div class="sn" id="h-know">0</div><div class="sl">아는 단어</div></div>
+      <div class="stat-pill c-unk"><div class="sn" id="h-unk">0</div><div class="sl">모르는 단어</div></div>
+    </div>
   </div>
   <div class="home-actions">
-    <button class="btn-primary" onclick="goTo('wordlist')">단어장 보기 / 추가</button>
-    <button class="btn-secondary" onclick="startQuizSetup()">📝 퀴즈 시작</button>
+    <button class="btn-primary" onclick="goTo('wordlist')">📚 단어장 보기 / 추가</button>
+    <button class="btn-secondary" onclick="goStudySetup()">🧠 단어 학습</button>
+    <button class="btn-secondary" onclick="startQuizSetup()">📝 퀴즈</button>
   </div>
 </div>
 
-<!-- ── WORD LIST ── -->
-
+<!-- WORD LIST -->
 <div id="wordlist" class="screen">
   <div class="header">
     <button class="header-back" onclick="goTo('home')">‹</button>
     <div class="header-title">단어장</div>
     <div class="header-badge" id="list-count">0개</div>
   </div>
+  <div class="tab-bar">
+    <div class="tab active" id="tab-all"     onclick="setListTab('all')">전체</div>
+    <div class="tab"        id="tab-new"     onclick="setListTab('new')">단어장</div>
+    <div class="tab"        id="tab-know"    onclick="setListTab('know')">아는 단어</div>
+    <div class="tab"        id="tab-unknown" onclick="setListTab('unknown')">모르는 단어</div>
+  </div>
   <div class="list-scroll" id="word-list-body"></div>
   <div class="add-bar">
     <div class="add-form">
       <div class="add-inputs">
         <input class="input-field en" id="inp-en" placeholder="English word" autocomplete="off" autocorrect="off" spellcheck="false">
-        <input class="input-field" id="inp-ko" placeholder="한국어 뜻" autocomplete="off">
+        <input class="input-field"    id="inp-ko" placeholder="한국어 뜻" autocomplete="off">
       </div>
       <button class="btn-add" onclick="addWord()">+</button>
     </div>
   </div>
 </div>
 
-<!-- ── QUIZ SETUP ── -->
+<!-- STUDY SETUP -->
+<div id="studysetup" class="screen">
+  <div class="header">
+    <button class="header-back" onclick="goTo('home')">‹</button>
+    <div class="header-title">학습 설정</div>
+  </div>
+  <div class="setup-body">
+    <div class="section-label" style="margin-bottom:12px">학습할 단어 풀</div>
+    <div id="study-pool-opts"></div>
+    <div class="info-box">
+      <div class="info-box-icon">💡</div>
+      <div class="info-box-text">
+        카드를 <strong>탭</strong>하면 뜻이 공개돼요.<br>
+        <strong>✓ 알아요</strong> → 아는 단어로 이동<br>
+        <strong>😓 Pass</strong> → 모르는 단어로 이동
+      </div>
+    </div>
+  </div>
+  <div class="setup-footer">
+    <button class="btn-primary" onclick="startStudy()">학습 시작</button>
+  </div>
+</div>
 
+<!-- STUDY -->
+<div id="study" class="screen">
+  <div class="header">
+    <button class="header-back" onclick="exitStudy()">✕</button>
+    <div class="header-title">단어 학습</div>
+  </div>
+  <div class="study-body">
+    <div class="study-prog-wrap"><div class="study-prog-fill" id="study-prog" style="width:0%"></div></div>
+    <div class="study-counter" id="study-counter"></div>
+    <div class="flip-card-wrap" onclick="flipCard()">
+      <div class="flip-card">
+        <div class="flip-inner" id="flip-inner">
+          <div class="flip-front">
+            <div class="card-hint">ENGLISH</div>
+            <div class="card-word" id="card-word"></div>
+            <div class="card-tap-hint">탭해서 뜻 확인 →</div>
+          </div>
+          <div class="flip-back">
+            <div class="card-hint">MEANING</div>
+            <div class="card-meaning" id="card-meaning"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="study-actions">
+      <button class="btn-pass" onclick="studyAction('pass')">😓 Pass</button>
+      <button class="btn-know" onclick="studyAction('know')">✓ 알아요</button>
+    </div>
+  </div>
+</div>
+
+<!-- STUDY RESULT -->
+<div id="studyresult" class="screen">
+  <div class="header"><div class="header-title">학습 완료 🎉</div></div>
+  <div class="sr-body">
+    <div class="sr-summary">
+      <div class="sr-box know"><div class="sn" id="sr-know-cnt">0</div><div class="sl">알았어요 ✓</div></div>
+      <div class="sr-box unk"> <div class="sn" id="sr-pass-cnt">0</div><div class="sl">Pass 😓</div></div>
+    </div>
+    <div id="sr-pass-section">
+      <div class="sr-section-title">Pass한 단어</div>
+      <div id="sr-pass-list"></div>
+    </div>
+    <div style="margin-top:16px" id="sr-know-section">
+      <div class="sr-section-title">알았어요 ✓</div>
+      <div id="sr-know-list"></div>
+    </div>
+  </div>
+  <div class="sr-footer">
+    <button class="btn-secondary" onclick="goTo('home')">홈으로</button>
+    <button class="btn-primary"   onclick="goStudySetup()">다시 학습</button>
+  </div>
+</div>
+
+<!-- QUIZ SETUP -->
 <div id="quizsetup" class="screen">
   <div class="header">
     <button class="header-back" onclick="goTo('home')">‹</button>
@@ -649,47 +324,32 @@ z-index: 999;
   <div class="setup-body">
     <div class="section-label">문제 수</div>
     <div class="count-chips" id="count-chips"></div>
-
-```
-<div class="section-label">방향</div>
-<div class="direction-toggle">
-  <div class="dir-btn active" id="dir-en" onclick="setDir('en')">
-    <span class="dir-icon">🇺🇸</span>영어 → 한국어
-  </div>
-  <div class="dir-btn" id="dir-ko" onclick="setDir('ko')">
-    <span class="dir-icon">🇰🇷</span>한국어 → 영어
-  </div>
-</div>
-
-<div class="quiz-info-box">
-  <div class="quiz-info-icon">💡</div>
-  <div class="quiz-info-text">
-    <strong id="info-q">0</strong>문제가 출제됩니다.<br>
-    단어장에서 무작위로 선택돼요.
-  </div>
-</div>
-```
-
+    <div class="section-label">방향</div>
+    <div class="direction-toggle">
+      <div class="dir-btn active" id="dir-en" onclick="setDir('en')"><span class="dir-icon">🇺🇸</span>영어 → 한국어</div>
+      <div class="dir-btn"        id="dir-ko" onclick="setDir('ko')"><span class="dir-icon">🇰🇷</span>한국어 → 영어</div>
+    </div>
+    <div class="info-box">
+      <div class="info-box-icon">⚖️</div>
+      <div class="info-box-text"><strong id="info-q">0</strong>문제 출제.<br>모르는 단어 위주로, 오래 안 나온 단어가 우선 출제돼요.</div>
+    </div>
   </div>
   <div class="setup-footer">
     <button class="btn-primary" onclick="startQuiz()">퀴즈 시작하기</button>
   </div>
 </div>
 
-<!-- ── QUIZ ── -->
-
+<!-- QUIZ -->
 <div id="quiz" class="screen">
   <div class="header">
     <button class="header-back" onclick="exitQuiz()">✕</button>
     <div class="header-title" id="quiz-title">퀴즈</div>
   </div>
   <div class="quiz-body">
-    <div class="progress-bar-wrap">
-      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
-    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
     <div class="question-box">
       <div class="q-label" id="q-label">ENGLISH → KOREAN</div>
-      <div class="q-word" id="q-word"></div>
+      <div class="q-word"  id="q-word"></div>
     </div>
     <div class="options-grid" id="options-grid"></div>
   </div>
@@ -699,12 +359,9 @@ z-index: 999;
   </div>
 </div>
 
-<!-- ── RESULT ── -->
-
+<!-- RESULT -->
 <div id="result" class="screen">
-  <div class="header">
-    <div class="header-title">결과</div>
-  </div>
+  <div class="header"><div class="header-title">결과</div></div>
   <div class="result-body">
     <div class="result-score-ring">
       <div class="score-circle" id="score-circle">
@@ -719,28 +376,37 @@ z-index: 999;
       <div class="result-section-title">틀린 단어</div>
       <div id="result-wrong-list"></div>
     </div>
-    <div style="margin-top:16px" id="result-correct-section">
+    <div style="margin-top:16px">
       <div class="result-section-title">맞힌 단어</div>
       <div id="result-correct-list"></div>
     </div>
   </div>
   <div class="result-footer">
     <button class="btn-secondary" onclick="goTo('home')">홈으로</button>
-    <button class="btn-primary" onclick="startQuizSetup()">다시 퀴즈</button>
+    <button class="btn-primary"   onclick="startQuizSetup()">다시 퀴즈</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── STATE ──
+// ── DATA ──
 let words = JSON.parse(localStorage.getItem('wb_words') || '[]');
-let quizWords = [], quizIdx = 0, quizDir = 'en', quizResults = [];
-let selectedCount = 0, answered = false;
+// migrate: add missing fields
+words = words.map(w => ({
+  en: w.en, ko: w.ko,
+  status: w.status || 'new',
+  lastQuizzed: w.lastQuizzed || null
+}));
+save();
 
 function save() { localStorage.setItem('wb_words', JSON.stringify(words)); }
+function shuffle(arr) { return [...arr].sort(() => Math.random() - .5); }
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-// ── NAVIGATION ──
+// ── NAV ──
 function goTo(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -751,44 +417,56 @@ function goTo(id) {
 // ── TOAST ──
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 1800);
 }
 
 // ── HOME ──
 function updateHome() {
-  document.getElementById('home-count').textContent = words.length;
+  document.getElementById('h-new').textContent  = words.filter(w => w.status === 'new').length;
+  document.getElementById('h-know').textContent = words.filter(w => w.status === 'know').length;
+  document.getElementById('h-unk').textContent  = words.filter(w => w.status === 'unknown').length;
 }
 
 // ── WORD LIST ──
+let listTab = 'all';
+function setListTab(tab) {
+  listTab = tab;
+  ['all','new','know','unknown'].forEach(t =>
+    document.getElementById('tab-'+t).classList.toggle('active', t === tab)
+  );
+  renderWordList();
+}
+
 function renderWordList() {
+  const filtered = listTab === 'all' ? words : words.filter(w => w.status === listTab);
+  document.getElementById('list-count').textContent = filtered.length + '개';
   const body = document.getElementById('word-list-body');
-  document.getElementById('list-count').textContent = words.length + '개';
-  if (!words.length) {
-    body.innerHTML = `<div class="empty-state"><div class="big">📭</div><p>아직 단어가 없어요.<br>아래에서 첫 단어를 추가해보세요!</p></div>`;
+  if (!filtered.length) {
+    body.innerHTML = `<div class="empty-state"><div class="big">📭</div><p>단어가 없어요.</p></div>`;
     return;
   }
-  body.innerHTML = words.map((w, i) => `
-    <div class="word-card">
-      <div class="word-num">${i + 1}</div>
+  const dc = { new:'wdot-new', know:'wdot-know', unknown:'wdot-unknown' };
+  body.innerHTML = filtered.map((w, i) => {
+    const ri = words.indexOf(w);
+    return `<div class="word-card">
+      <div class="word-num">${i+1}</div>
+      <div class="wdot ${dc[w.status]}"></div>
       <div class="word-info">
         <div class="word-en">${esc(w.en)}</div>
         <div class="word-ko">${esc(w.ko)}</div>
       </div>
-      <button class="word-del" onclick="deleteWord(${i})">×</button>
-    </div>
-  `).join('');
+      <button class="word-del" onclick="deleteWord(${ri})">×</button>
+    </div>`;
+  }).join('');
 }
 
 function addWord() {
   const en = document.getElementById('inp-en').value.trim();
   const ko = document.getElementById('inp-ko').value.trim();
   if (!en || !ko) { showToast('영어와 한국어 뜻을 모두 입력해주세요'); return; }
-  if (words.some(w => w.en.toLowerCase() === en.toLowerCase())) {
-    showToast('이미 있는 단어예요!'); return;
-  }
-  words.push({ en, ko });
+  if (words.some(w => w.en.toLowerCase() === en.toLowerCase())) { showToast('이미 있는 단어예요!'); return; }
+  words.push({ en, ko, status: 'new', lastQuizzed: null });
   save();
   document.getElementById('inp-en').value = '';
   document.getElementById('inp-ko').value = '';
@@ -796,46 +474,126 @@ function addWord() {
   renderWordList();
 }
 
-function deleteWord(i) {
-  words.splice(i, 1);
-  save();
-  renderWordList();
+function deleteWord(i) { words.splice(i, 1); save(); renderWordList(); }
+
+document.getElementById('inp-ko').addEventListener('keydown', e => { if (e.key === 'Enter') addWord(); });
+
+// ── STUDY ──
+let studyPool = [], studyIdx = 0, studyResults = [], studyPoolType = 'all';
+
+function goStudySetup() {
+  if (!words.length) { showToast('단어를 먼저 추가해주세요'); return; }
+  const pools = [
+    { id:'all',     icon:'📚', name:'전체',       desc:'저장된 모든 단어' },
+    { id:'new',     icon:'🆕', name:'단어장',      desc:'아직 학습 안 한 단어' },
+    { id:'unknown', icon:'😓', name:'모르는 단어', desc:'Pass한 단어 복습' },
+  ];
+  document.getElementById('study-pool-opts').innerHTML = pools.map(p => {
+    const cnt = p.id === 'all' ? words.length : words.filter(w => w.status === p.id).length;
+    return `<div class="pool-btn ${studyPoolType===p.id?'active':''}" onclick="selectStudyPool(event,'${p.id}')">
+      <div class="pool-icon">${p.icon}</div>
+      <div class="pool-info"><div class="pool-name">${p.name}</div><div class="pool-desc">${p.desc}</div></div>
+      <div class="pool-count">${cnt}</div>
+    </div>`;
+  }).join('');
+  goTo('studysetup');
 }
 
-document.getElementById('inp-ko').addEventListener('keydown', e => {
-  if (e.key === 'Enter') addWord();
-});
+function selectStudyPool(e, id) {
+  studyPoolType = id;
+  document.querySelectorAll('.pool-btn').forEach(b => b.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+}
+
+function startStudy() {
+  const pool = studyPoolType === 'all' ? [...words] : words.filter(w => w.status === studyPoolType);
+  if (!pool.length) { showToast('해당 풀에 단어가 없어요'); return; }
+  studyPool = shuffle(pool);
+  studyIdx = 0; studyResults = [];
+  goTo('study');
+  loadStudyCard();
+}
+
+function loadStudyCard() {
+  document.getElementById('flip-inner').classList.remove('flipped');
+  document.getElementById('study-prog').style.width = (studyIdx / studyPool.length * 100) + '%';
+  document.getElementById('study-counter').textContent = `${studyIdx + 1} / ${studyPool.length}`;
+  document.getElementById('card-word').textContent    = studyPool[studyIdx].en;
+  document.getElementById('card-meaning').textContent = studyPool[studyIdx].ko;
+}
+
+function flipCard() {
+  document.getElementById('flip-inner').classList.toggle('flipped');
+}
+
+function studyAction(action) {
+  const w = studyPool[studyIdx];
+  const idx = words.findIndex(x => x.en === w.en);
+  if (idx !== -1) { words[idx].status = action === 'know' ? 'know' : 'unknown'; save(); }
+  studyResults.push({ word: w, action });
+  studyIdx++;
+  if (studyIdx >= studyPool.length) { showStudyResult(); return; }
+  loadStudyCard();
+}
+
+function exitStudy() { if (confirm('학습을 종료할까요?')) goTo('home'); }
+
+function showStudyResult() {
+  const knows  = studyResults.filter(r => r.action === 'know');
+  const passes = studyResults.filter(r => r.action === 'pass');
+  document.getElementById('sr-know-cnt').textContent = knows.length;
+  document.getElementById('sr-pass-cnt').textContent = passes.length;
+  document.getElementById('sr-pass-section').style.display = passes.length ? '' : 'none';
+  document.getElementById('sr-pass-list').innerHTML = passes.map(r =>
+    `<div class="sr-word-item"><div class="sr-dot fail"></div><div><div class="sr-en">${esc(r.word.en)}</div><div class="sr-ko">${esc(r.word.ko)}</div></div></div>`
+  ).join('');
+  document.getElementById('sr-know-list').innerHTML = knows.map(r =>
+    `<div class="sr-word-item"><div class="sr-dot ok"></div><div><div class="sr-en">${esc(r.word.en)}</div><div class="sr-ko">${esc(r.word.ko)}</div></div></div>`
+  ).join('');
+  goTo('studyresult');
+}
+
+// ── WEIGHTED QUIZ ──
+// Status weight: unknown=6, new=3, know=1
+// Recency bonus: never shown=+5, else min(4, daysSince/7)
+function getWeight(w) {
+  const sw = { unknown:6, new:3, know:1 }[w.status] || 1;
+  const rw = !w.lastQuizzed ? 5 : Math.min(4, (Date.now() - w.lastQuizzed) / (1000*60*60*24*7));
+  return sw + rw;
+}
+
+function weightedSample(pool, count) {
+  const result = [], remaining = [...pool];
+  for (let i = 0; i < Math.min(count, remaining.length); i++) {
+    const total = remaining.reduce((s, w) => s + getWeight(w), 0);
+    let r = Math.random() * total, picked = remaining.length - 1;
+    for (let j = 0; j < remaining.length; j++) { r -= getWeight(remaining[j]); if (r <= 0) { picked = j; break; } }
+    result.push(remaining[picked]);
+    remaining.splice(picked, 1);
+  }
+  return result;
+}
 
 // ── QUIZ SETUP ──
+let selectedCount = 0, quizDir = 'en';
 const COUNTS = [5, 10, 15, 20, 30, '전체'];
 
 function startQuizSetup() {
-  if (words.length < 4) {
-    showToast('퀴즈는 최소 4개 단어가 필요해요');
-    return;
-  }
-  // build chips
+  if (words.length < 4) { showToast('퀴즈는 최소 4개 단어가 필요해요'); return; }
   const chips = document.getElementById('count-chips');
   chips.innerHTML = '';
-  COUNTS.forEach(c => {
-    const max = c === '전체' ? words.length : Math.min(c, words.length);
-    if (max < 1 && c !== '전체') return;
-    const active = (selectedCount === 0 && c === COUNTS[0]) || selectedCount === c;
+  COUNTS.forEach((c, i) => {
     const el = document.createElement('div');
-    el.className = 'chip' + (active ? ' active' : '');
+    el.className = 'chip' + (i === 0 ? ' active' : '');
+    const max = c === '전체' ? words.length : Math.min(c, words.length);
     el.textContent = c === '전체' ? `전체 (${words.length})` : `${max}문제`;
     el.onclick = () => {
       document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-      el.classList.add('active');
-      selectedCount = c;
-      updateInfoBox();
+      el.classList.add('active'); selectedCount = c; updateInfoBox();
     };
     chips.appendChild(el);
   });
-  // default select first
-  if (selectedCount === 0) selectedCount = COUNTS[0];
-  chips.children[0] && chips.children[0].classList.add('active');
-  updateInfoBox();
+  selectedCount = COUNTS[0]; updateInfoBox();
   goTo('quizsetup');
 }
 
@@ -851,164 +609,82 @@ function setDir(dir) {
 }
 
 // ── QUIZ ──
-function shuffle(arr) { return [...arr].sort(() => Math.random() - .5); }
+let quizWords = [], quizIdx = 0, quizResults = [], answered = false;
 
 function startQuiz() {
   const count = selectedCount === '전체' ? words.length : Math.min(selectedCount, words.length);
-  quizWords = shuffle(words).slice(0, count);
-  quizIdx = 0;
-  quizResults = [];
-  goTo('quiz');
-  document.getElementById('quiz-title').textContent =
-    quizDir === 'en' ? '영어 → 한국어' : '한국어 → 영어';
-  loadQuestion();
+  quizWords = weightedSample(words, count);
+  quizIdx = 0; quizResults = []; answered = false;
+  document.getElementById('quiz-title').textContent = quizDir === 'en' ? '영어 → 한국어' : '한국어 → 영어';
+  goTo('quiz'); loadQuestion();
 }
 
 function loadQuestion() {
   answered = false;
   document.getElementById('next-btn').style.display = 'none';
+  document.getElementById('progress-fill').style.width = (quizIdx / quizWords.length * 100) + '%';
+  document.getElementById('quiz-counter').textContent = `${quizIdx + 1} / ${quizWords.length}`;
+  const cur = quizWords[quizIdx];
+  document.getElementById('q-word').textContent  = quizDir === 'en' ? cur.en : cur.ko;
+  document.getElementById('q-word').className    = 'q-word' + (quizDir === 'ko' ? ' ko' : '');
+  document.getElementById('q-label').textContent = quizDir === 'en' ? 'ENGLISH → KOREAN' : 'KOREAN → ENGLISH';
 
-  const total = quizWords.length;
-  const pct = (quizIdx / total) * 100;
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('quiz-counter').textContent = `${quizIdx + 1} / ${total}`;
-
-  const current = quizWords[quizIdx];
-  const qWord = document.getElementById('q-word');
-  const qLabel = document.getElementById('q-label');
-
-  if (quizDir === 'en') {
-    qWord.textContent = current.en;
-    qWord.className = 'q-word';
-    qLabel.textContent = 'ENGLISH → KOREAN';
-  } else {
-    qWord.textContent = current.ko;
-    qWord.className = 'q-word ko';
-    qLabel.textContent = 'KOREAN → ENGLISH';
-  }
-
-  // build options: 1 correct + 3 wrong from other words
-  const others = words.filter(w => w.en !== current.en);
-  const wrongs = shuffle(others).slice(0, 3);
-  const options = shuffle([current, ...wrongs]);
-
-  const grid = document.getElementById('options-grid');
-  const labels = ['A', 'B', 'C', 'D'];
-  grid.innerHTML = options.map((w, i) => {
-    const display = quizDir === 'en' ? w.ko : w.en;
-    return `
-      <button class="option-btn" onclick="selectOption(this, '${esc(w.en)}', '${esc(current.en)}')">
-        <div class="option-label">${labels[i]}</div>
-        <div class="option-text">${esc(display)}</div>
-      </button>
-    `;
-  }).join('');
+  const others  = words.filter(w => w.en !== cur.en);
+  const options = shuffle([cur, ...shuffle(others).slice(0, 3)]);
+  const labels  = ['A','B','C','D'];
+  document.getElementById('options-grid').innerHTML = options.map((w, i) => `
+    <button class="option-btn" onclick="selectOption(this,'${esc(w.en)}','${esc(cur.en)}')">
+      <div class="option-label">${labels[i]}</div>
+      <div class="option-text">${esc(quizDir === 'en' ? w.ko : w.en)}</div>
+    </button>`).join('');
 }
 
 function selectOption(btn, chosen, correct) {
   if (answered) return;
   answered = true;
-
   const isCorrect = chosen === correct;
-  const allBtns = document.querySelectorAll('.option-btn');
-
-  allBtns.forEach(b => {
+  document.querySelectorAll('.option-btn').forEach(b => {
     b.classList.add('revealed');
-    const label = b.querySelector('.option-text').textContent;
-    const btnWord = quizDir === 'en'
-      ? words.find(w => w.ko === label)?.en
-      : words.find(w => w.en === label)?.en;
-    if (btnWord === correct) b.classList.add('correct');
+    const txt = b.querySelector('.option-text').textContent;
+    const bEn = quizDir === 'en' ? words.find(w => w.ko === txt)?.en : words.find(w => w.en === txt)?.en;
+    if (bEn === correct) b.classList.add('correct');
   });
-
   if (!isCorrect) btn.classList.add('wrong');
-
+  const idx = words.findIndex(w => w.en === correct);
+  if (idx !== -1) { words[idx].lastQuizzed = Date.now(); save(); }
   quizResults.push({ word: quizWords[quizIdx], correct: isCorrect, chosen });
-
   document.getElementById('next-btn').style.display = 'block';
-  if (quizIdx === quizWords.length - 1) {
-    document.getElementById('next-btn').textContent = '결과 보기 →';
-  }
+  document.getElementById('next-btn').textContent = quizIdx === quizWords.length - 1 ? '결과 보기 →' : '다음 →';
 }
 
-function nextQuestion() {
-  quizIdx++;
-  if (quizIdx >= quizWords.length) {
-    showResult(); return;
-  }
-  loadQuestion();
-}
-
-function exitQuiz() {
-  if (confirm('퀴즈를 종료할까요?')) goTo('home');
-}
+function nextQuestion() { quizIdx++; if (quizIdx >= quizWords.length) { showResult(); return; } loadQuestion(); }
+function exitQuiz() { if (confirm('퀴즈를 종료할까요?')) goTo('home'); }
 
 // ── RESULT ──
 function showResult() {
   const total = quizResults.length;
   const correct = quizResults.filter(r => r.correct).length;
-  const pct = Math.round((correct / total) * 100);
-
+  const pct = Math.round(correct / total * 100);
   document.getElementById('score-circle').style.setProperty('--pct', pct + '%');
-  document.getElementById('score-num').textContent = correct;
+  document.getElementById('score-num').textContent   = correct;
   document.getElementById('score-denom').textContent = '/' + total;
-
-  const msgs = [
-    [100, '🎉 완벽해요!'],
-    [80,  '🔥 훌륭해요!'],
-    [60,  '👍 잘 했어요!'],
-    [40,  '📚 조금 더 해봐요'],
-    [0,   '💪 다시 도전!']
-  ];
-  document.getElementById('score-msg').textContent =
-    msgs.find(([t]) => pct >= t)?.[1] || '다시 도전!';
-
+  const msgs = [[100,'🎉 완벽해요!'],[80,'🔥 훌륭해요!'],[60,'👍 잘 했어요!'],[40,'📚 조금 더 해봐요'],[0,'💪 다시 도전!']];
+  document.getElementById('score-msg').textContent = msgs.find(([t]) => pct >= t)?.[1] || '다시 도전!';
   const wrong = quizResults.filter(r => !r.correct);
-  const ok    = quizResults.filter(r => r.correct);
-
-  const wrongList = document.getElementById('result-wrong-list');
-  const okList = document.getElementById('result-correct-list');
-
+  const ok    = quizResults.filter(r =>  r.correct);
   document.getElementById('result-wrong-section').style.display = wrong.length ? '' : 'none';
-
-  wrongList.innerHTML = wrong.map(r => `
-    <div class="result-word-item">
-      <div class="result-dot fail"></div>
-      <div>
-        <div class="rw-en">${esc(r.word.en)}</div>
-        <div class="rw-ko">${esc(r.word.ko)}</div>
-        <div class="rw-ans">내 답: ${esc(r.chosen)}</div>
-      </div>
-    </div>
-  `).join('');
-
-  okList.innerHTML = ok.map(r => `
-    <div class="result-word-item">
-      <div class="result-dot ok"></div>
-      <div>
-        <div class="rw-en">${esc(r.word.en)}</div>
-        <div class="rw-ko">${esc(r.word.ko)}</div>
-      </div>
-    </div>
-  `).join('');
-
+  document.getElementById('result-wrong-list').innerHTML = wrong.map(r =>
+    `<div class="result-word-item"><div class="result-dot fail"></div><div><div class="rw-en">${esc(r.word.en)}</div><div class="rw-ko">${esc(r.word.ko)}</div><div class="rw-ans">내 답: ${esc(r.chosen)}</div></div></div>`
+  ).join('');
+  document.getElementById('result-correct-list').innerHTML = ok.map(r =>
+    `<div class="result-word-item"><div class="result-dot ok"></div><div><div class="rw-en">${esc(r.word.en)}</div><div class="rw-ko">${esc(r.word.ko)}</div></div></div>`
+  ).join('');
   goTo('result');
 }
 
-function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
 // ── PWA ──
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
-}
-
-// init
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
 updateHome();
 </script>
-
 </body>
 </html>
